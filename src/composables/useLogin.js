@@ -6,6 +6,7 @@ export function useLogin() {
   const senha = ref('')
   const visibleModal = ref(false)
   const errorMessage = ref('')
+  const usuarioLogado = ref(JSON.parse(localStorage.getItem('usuarioLogado')) ?? '')
 
   function estadoModal() {
     visibleModal.value = !visibleModal.value
@@ -22,10 +23,16 @@ export function useLogin() {
       localStorage.setItem('usuarioLogado', JSON.stringify(usuario))
       alert('Login bem-sucedido!') // Mensagem de sucesso
       estadoModal() // Fecha o modal
+      window.location.reload()
     } else {
       errorMessage.value = 'Email ou senha incorretos.' // Mensagem de erro
       alert(errorMessage.value)
     }
+  }
+
+  function deslogar() {
+    localStorage.removeItem('usuarioLogado')
+    window.location.reload()
   }
 
   return {
@@ -34,6 +41,8 @@ export function useLogin() {
     visibleModal,
     estadoModal,
     validarLogin,
+    deslogar,
     errorMessage,
+    usuarioLogado,
   }
 }

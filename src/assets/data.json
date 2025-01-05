@@ -22,7 +22,7 @@
         "valorParcela": 450,
         "avaliacoes": 30,
         "selos": ["20% OFF", "MAIS VENDIDO"],
-        "estoque": 15
+        "estoque": 0
       },
       {
         "id": "17",
