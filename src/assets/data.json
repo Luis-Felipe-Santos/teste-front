@@ -1,0 +1,116 @@
+{
+  "produtos": {
+    "titulo": "Novidades",
+    "dados": [
+      {
+        "id": "15",
+        "nome": "Iphone 13 Pro Max Olex 256GB",
+        "image": "https://www.webcoevocevue.uappi.dev.br/upload/editor/Foto.png",
+        "precoDe": 5555.56,
+        "precoPor": 5000,
+        "valorParcela": 500,
+        "avaliacoes": 20,
+        "selos": ["10% OFF", "MAIS VENDIDO", "LANÇAMENTO"],
+        "estoque": 10
+      },
+      {
+        "id": "16",
+        "nome": "Iphone 12 Pro 128GB",
+        "image": "https://www.webcoevocevue.uappi.dev.br/upload/editor/Foto.png",
+        "precoDe": 4999.99,
+        "precoPor": 4500,
+        "valorParcela": 450,
+        "avaliacoes": 30,
+        "selos": ["20% OFF", "MAIS VENDIDO"],
+        "estoque": 15
+      },
+      {
+        "id": "17",
+        "nome": "Iphone 14 Pro Max 512GB",
+        "image": "https://www.webcoevocevue.uappi.dev.br/upload/editor/Foto.png",
+        "precoDe": 6499.99,
+        "precoPor": 6000,
+        "valorParcela": 600,
+        "avaliacoes": 25,
+        "selos": [],
+        "estoque": 8
+      },
+      {
+        "id": "18",
+        "nome": "Iphone 13 Mini 128GB",
+        "image": "",
+        "precoDe": 4500,
+        "precoPor": 4200,
+        "valorParcela": 420,
+        "avaliacoes": 18,
+        "selos": ["10% OFF"],
+        "estoque": 12
+      },
+      {
+        "id": "19",
+        "nome": "Iphone SE 64GB",
+        "image": "https://www.webcoevocevue.uappi.dev.br/upload/editor/Foto.png",
+        "precoDe": 2999.99,
+        "precoPor": 2800,
+        "valorParcela": 280,
+        "avaliacoes": 40,
+        "selos": ["MAIS VENDIDO"],
+        "estoque": 20
+      },
+      {
+        "id": "20",
+        "nome": "Iphone 13 Pro 256GB",
+        "image": "https://www.webcoevocevue.uappi.dev.br/upload/editor/Foto.png",
+        "precoDe": 5999.99,
+        "precoPor": 5700,
+        "valorParcela": 570,
+        "avaliacoes": 35,
+        "selos": ["10% OFF", "LANÇAMENTO"],
+        "estoque": 5
+      },
+      {
+        "id": "21",
+        "nome": "Iphone 11 64GB",
+        "image": "https://www.webcoevocevue.uappi.dev.br/upload/editor/Foto.png",
+        "precoDe": 3499.99,
+        "precoPor": 3300,
+        "valorParcela": 330,
+        "avaliacoes": 28,
+        "selos": ["5% OFF"],
+        "estoque": 18
+      },
+      {
+        "id": "22",
+        "nome": "Iphone 14 128GB",
+        "image": "https://www.webcoevocevue.uappi.dev.br/upload/editor/Foto.png",
+        "precoDe": 5899.99,
+        "precoPor": 5600,
+        "valorParcela": 560,
+        "avaliacoes": 50,
+        "selos": ["MAIS VENDIDO", "LANÇAMENTO"],
+        "estoque": 6
+      }
+    ]
+  },
+  "usuarios": {
+    "titulo": "Usuários",
+    "dados": [
+      {
+        "id": "18f0",
+        "email": "usuario1@example.com",
+        "password": "senha123",
+        "nome": "Usuário 1",
+        "carrinhoCompras": [],
+        "produtosFavoritados": []
+      },
+      {
+        "id": "228f",
+        "email": "usuario2@example.com",
+        "password": "senha456",
+        "nome": "Usuário 2",
+        "carrinhoCompras": [],
+        "produtosFavoritados": []
+      }
+    ]
+  }
+}
