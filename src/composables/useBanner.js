@@ -11,5 +11,6 @@ export function useBanner() {
       { id: 3, image: Banner3, nome: 'Banner 3' },
     ],
   })
+
   return { banners }
 }

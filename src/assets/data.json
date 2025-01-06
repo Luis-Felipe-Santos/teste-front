@@ -92,6 +92,60 @@
       }
     ]
   },
+  "iphones": {
+    "titulo": "Iphones",
+    "dados": [
+      {
+        "id": "1",
+        "nome": "Iphone 13 Pro Max Olex 256GB",
+        "image": "https://www.webcoevocevue.uappi.dev.br/upload/editor/Foto.png",
+        "precoDe": 5555.56,
+        "precoPor": 5000,
+        "valorParcela": 500,
+        "avaliacoes": 20,
+        "selos": ["10% OFF", "MAIS VENDIDO", "LANÇAMENTO"],
+        "estoque": 10
+      },
+      {
+        "id": "2",
+        "nome": "Iphone 12 Pro 128GB",
+        "image": "https://www.webcoevocevue.uappi.dev.br/upload/editor/Foto.png",
+        "precoDe": 4999.99,
+        "precoPor": 4500,
+        "valorParcela": 450,
+        "avaliacoes": 30,
+        "selos": ["20% OFF", "MAIS VENDIDO"],
+        "estoque": 0
+      }
+    ]
+  },
+  "promocoes": {
+    "titulo": "Promoções",
+    "dados": [
+      {
+        "id": "3",
+        "nome": "Iphone 13 Pro Max Olex 256GB",
+        "image": "https://www.webcoevocevue.uappi.dev.br/upload/editor/Foto.png",
+        "precoDe": 5555.56,
+        "precoPor": 5000,
+        "valorParcela": 500,
+        "avaliacoes": 20,
+        "selos": ["10% OFF", "MAIS VENDIDO", "LANÇAMENTO"],
+        "estoque": 10
+      },
+      {
+        "id": "4",
+        "nome": "Iphone 12 Pro 128GB",
+        "image": "https://www.webcoevocevue.uappi.dev.br/upload/editor/Foto.png",
+        "precoDe": 4999.99,
+        "precoPor": 4500,
+        "valorParcela": 450,
+        "avaliacoes": 30,
+        "selos": ["20% OFF", "MAIS VENDIDO"],
+        "estoque": 0
+      }
+    ]
+  },
   "usuarios": {
     "titulo": "Usuários",
     "dados": [

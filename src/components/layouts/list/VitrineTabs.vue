@@ -19,67 +19,73 @@ const { email, senha, validarLogin } = useLogin()
 </script>
 
 <template>
-  <div class="vitrine-novidades">
-    <h1>{{ produtos.titulo }}</h1>
-    <div class="container-cards">
-      <div class="cards" v-for="(produto, index) in produtos.dados" :key="produto.id || index">
-        <div v-if="produto.selos.length > 0">
-          <div
-            v-for="(selo, seloIndex) in produto.selos"
-            :key="seloIndex"
-            :class="['badge', seloIndex > 0 ? 'secondary' : '']"
-          >
-            {{ selo }}
+  <div class="vitrine-tabs">
+    <div class="vitrine-novidades">
+      <h1>Navegue por categoria</h1>
+      <div class="tabs">
+        <button class="btn-iphones">Iphones</button>
+        <button class="btn-promocoes">Promoções</button>
+      </div>
+      <div class="container-cards">
+        <div class="cards" v-for="(produto, index) in produtos.dados" :key="produto.id || index">
+          <div v-if="produto.selos.length > 0">
+            <div
+              v-for="(selo, seloIndex) in produto.selos"
+              :key="seloIndex"
+              :class="['badge', seloIndex > 0 ? 'secondary' : '']"
+            >
+              {{ selo }}
+            </div>
           </div>
-        </div>
-        <i
-          v-if="testeFavorito"
-          :class="[
-            'fa-heart',
-            'icon-heart',
-            testeFavorito.produtosFavoritados.includes(produto.id)
-              ? 'fa-regular favorito'
-              : 'fa-regular',
-          ]"
-          @click="
-            testeFavorito.produtosFavoritados.includes(produto.id)
-              ? removerProdutoFavorito(produto.id)
-              : favoritarProduto(produto.id)
-          "
-        ></i>
-        <i v-else class="fa-regular fa-heart icon-heart" @click="exibirLogin()"></i>
+          <i
+            v-if="testeFavorito"
+            :class="[
+              'fa-heart',
+              'icon-heart',
+              testeFavorito.produtosFavoritados.includes(produto.id)
+                ? 'fa-regular favorito'
+                : 'fa-regular',
+            ]"
+            @click="
+              testeFavorito.produtosFavoritados.includes(produto.id)
+                ? removerProdutoFavorito(produto.id)
+                : favoritarProduto(produto.id)
+            "
+          ></i>
+          <i v-else class="fa-regular fa-heart icon-heart" @click="exibirLogin()"></i>
 
-        <img
-          class="imagem"
-          :src="produto.image == '' ? defaultImage : produto.image"
-          :alt="produto.nome"
-        />
-        <div class="card-infos">
-          <div class="nome-produto">
-            <p>{{ produto.nome }}</p>
-          </div>
-          <div class="avaliacoes">
-            <img src="@/assets/estrelas.svg" alt="" />
-            <span>({{ produto.avaliacoes }})</span>
-          </div>
-          <div class="precos">
-            <div class="valores-promo">
-              <span class="preco-de" v-if="produto.precoDe">{{
-                formatCurrency(produto.precoDe)
-              }}</span>
-              <span class="preco-por">{{ formatCurrency(produto.precoPor) }}</span>
+          <img
+            class="imagem"
+            :src="produto.image == '' ? defaultImage : produto.image"
+            :alt="produto.nome"
+          />
+          <div class="card-infos">
+            <div class="nome-produto">
+              <p>{{ produto.nome }}</p>
             </div>
-            <div class="parcelas">
-              <p>
-                ou <span>12x</span> de <span>{{ formatCurrency(produto.valorParcela) }}</span> sem
-                juros
-              </p>
+            <div class="avaliacoes">
+              <img src="@/assets/estrelas.svg" alt="" />
+              <span>({{ produto.avaliacoes }})</span>
             </div>
-          </div>
-          <div class="btn">
-            <button @click="adicionarCarrinho(produto.id)" :disabled="produto.estoque === 0">
-              {{ produto.estoque === 0 ? 'Indisponível' : 'Comprar Agora' }}
-            </button>
+            <div class="precos">
+              <div class="valores-promo">
+                <span class="preco-de" v-if="produto.precoDe">{{
+                  formatCurrency(produto.precoDe)
+                }}</span>
+                <span class="preco-por">{{ formatCurrency(produto.precoPor) }}</span>
+              </div>
+              <div class="parcelas">
+                <p>
+                  ou <span>12x</span> de <span>{{ formatCurrency(produto.valorParcela) }}</span> sem
+                  juros
+                </p>
+              </div>
+            </div>
+            <div class="btn">
+              <button @click="adicionarCarrinho(produto.id)" :disabled="produto.estoque === 0">
+                {{ produto.estoque === 0 ? 'Indisponível' : 'Comprar Agora' }}
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -120,8 +126,15 @@ const { email, senha, validarLogin } = useLogin()
     </template>
   </MainModal>
 </template>
-
 <style scoped>
+.vitrine-tabs {
+  width: 100%;
+  height: 598px;
+  padding: 48px 0;
+  gap: 33px;
+  background-color: #eff8ff;
+  margin: 0 auto;
+}
 .vitrine-novidades {
   width: 100%;
   max-width: 1264px;
@@ -267,5 +280,25 @@ const { email, senha, validarLogin } = useLogin()
   color: #fff;
   background-color: #e60000;
   border-radius: 50%;
+}
+.tabs {
+  width: 1216px;
+  height: 40px;
+  gap: 12px;
+  display: flex;
+  margin: 24px 0 24px 0;
+}
+.btn-iphones,
+.btn-promocoes {
+  width: 86px;
+  height: 40px;
+  border-radius: 8px;
+  border: 1px solid #b3b9c6;
+  background-color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  color: #464c5e;
+  text-align: center;
 }
 </style>

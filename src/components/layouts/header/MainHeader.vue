@@ -1,22 +1,11 @@
 <script setup>
 import MainModal from '@/components/common/modals/MainModal.vue'
 import { useLogin } from '@/composables/useLogin'
+import { useCar } from '@/composables/useCar'
 
-/*
-const props = defineProps({
-  title: {
-    type: String,
-    required: true,
-  },
-  logado: {
-    type: Boolean,
-    default: false,
-    required: false,
-  },
-})
-  */
 const { email, senha, visibleModal, estadoModal, validarLogin, usuarioLogado, deslogar } =
   useLogin()
+const { estadoCarrinho } = useCar()
 </script>
 
 <template>
@@ -32,7 +21,7 @@ const { email, senha, visibleModal, estadoModal, validarLogin, usuarioLogado, de
         <input type="text" id="txtPesquisar" placeholder="Pesquisar por..." />
       </div>
       <div class="acoes">
-        <div class="icone-carrinho">
+        <div class="icone-carrinho" @click="estadoCarrinho">
           <img src="@/assets/carrinho.svg" alt="" />
         </div>
         <div class="usuario">

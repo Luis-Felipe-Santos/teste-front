@@ -11,5 +11,6 @@ import HomeView from '@/views/HomeView.vue'
   margin: 0;
   padding: 0;
   font-family: Inter;
+  box-sizing: border-box;
 }
 </style>
