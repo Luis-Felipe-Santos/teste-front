@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import data from '@/assets/data.json'
 
 export function useLogin() {
@@ -6,7 +6,12 @@ export function useLogin() {
   const senha = ref('')
   const visibleModal = ref(false)
   const errorMessage = ref('')
-  const usuarioLogado = ref(JSON.parse(localStorage.getItem('usuarioLogado')) ?? '')
+  const usuarioLogado = ref(
+    JSON.parse(localStorage.getItem('usuarioLogado')) || {
+      carrinhoCompras: [],
+      produtosFavoritados: [],
+    },
+  )
 
   function estadoModal() {
     visibleModal.value = !visibleModal.value
@@ -17,10 +22,10 @@ export function useLogin() {
     const usuario = data.usuarios.dados.find(
       (user) => user.email === email.value && user.password === senha.value,
     )
-
     if (usuario) {
       // Se o login for bem-sucedido, armazena as informações no Local Storage
       localStorage.setItem('usuarioLogado', JSON.stringify(usuario))
+      usuarioLogado.value = usuario // Atualiza a variável reativa
       alert('Login bem-sucedido!') // Mensagem de sucesso
       estadoModal() // Fecha o modal
       window.location.reload()
@@ -32,8 +37,14 @@ export function useLogin() {
 
   function deslogar() {
     localStorage.removeItem('usuarioLogado')
+    usuarioLogado.value = {} // Atualiza a variável reativa
     window.location.reload()
   }
+
+  // Computed para verificar se o usuário está logado
+  const isLoggedIn = computed(() => {
+    return Object.keys(usuarioLogado.value).length > 0 // Retorna true se o usuário estiver logado
+  })
 
   return {
     email,
@@ -44,5 +55,6 @@ export function useLogin() {
     deslogar,
     errorMessage,
     usuarioLogado,
+    isLoggedIn, // Retorna a propriedade computada
   }
 }

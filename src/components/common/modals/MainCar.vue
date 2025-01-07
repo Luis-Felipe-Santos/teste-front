@@ -1,11 +1,17 @@
 <script setup>
 import { useCar } from '@/composables/useCar'
+import { useProduct } from '@/composables/useProducts.js'
+import defaultImage from '@/assets/default.svg'
 
 const { carrinhoAberto, estadoCarrinho } = useCar()
+const { removerCarrinho, alterarEstoque, formatCurrency } = useProduct()
+
+defineProps({
+  produtosCarrinho: Array,
+})
 </script>
 
 <template>
-  <!-- O carrinho só será exibido se carrinhoAberto for true -->
   <div v-if="carrinhoAberto" class="carrinho">
     <div class="header-carrinho">
       <div class="header-content">
@@ -16,6 +22,43 @@ const { carrinhoAberto, estadoCarrinho } = useCar()
       </div>
       <img @click="estadoCarrinho" src="@/assets/icone-fechar.svg" alt="Fechar carrinho" />
     </div>
+
+    <div v-if="produtosCarrinho.length === 0" class="produtos">
+      <p>Carrinho vazio</p>
+    </div>
+
+    <div v-else>
+      <div v-for="produto in produtosCarrinho" :key="produto.id" class="produtos">
+        <div class="imagem-produto">
+          <img
+            :src="produto.image == '' ? defaultImage : produto.image"
+            :alt="produto.nome"
+            class="imagem-produto"
+          />
+        </div>
+        <div class="infos">
+          <div class="name-lixeira">
+            <p>{{ produto.nome }}</p>
+            <img @click="removerCarrinho(produto.id)" src="@/assets/lixeira.svg" alt="" />
+          </div>
+          <div class="acoes">
+            <div class="precos">
+              <p class="preco-de">{{ formatCurrency(produto.precoDe) }}</p>
+              <p class="preco-por">{{ formatCurrency(produto.precoPor) }}</p>
+            </div>
+            <div class="buttons-acao">
+              <p>Quantidade:</p>
+              <div class="qtd-acoes">
+                <button class="remove" @click="alterarEstoque(produto.id, -1)">-</button>
+                {{ produto.estoque }}
+                <button class="add" @click="alterarEstoque(produto.id)">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="conteudo-principal"></div>
     <div class="footer-carrinho">
       <div class="total">
@@ -24,11 +67,12 @@ const { carrinhoAberto, estadoCarrinho } = useCar()
       </div>
       <div class="btn">
         <button class="finalizar">Finalizar compra</button>
-        <button class="continuar" @click="estadoCarrinho">Continuar comprando</button>
+        <button class="continuar">Continuar</button>
       </div>
     </div>
   </div>
 </template>
+
 <style scoped>
 .carrinho {
   width: 442px;
@@ -121,5 +165,109 @@ const { carrinhoAberto, estadoCarrinho } = useCar()
   font-size: 16px;
   line-height: 24px;
   font-weight: 600;
+}
+.produtos {
+  display: flex;
+  width: 399px;
+  height: 116px;
+  border-radius: 18px;
+  border: 1px solid #edeef1;
+  padding: 14px;
+  gap: 10px;
+  margin: 20px;
+}
+.imagem-produto {
+  width: 88px;
+  height: 88px;
+}
+.infos {
+  width: 273px;
+  height: 88px;
+  gap: 14px;
+}
+.name-lixeira {
+  width: 273px;
+  height: 36px;
+  gap: 16px;
+  display: flex;
+}
+.name-lixeira p {
+  width: 239px;
+  height: 36px;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 18px;
+  color: #24262d;
+}
+.name-lixeira img {
+  width: 18px;
+  height: 18px;
+}
+.acoes {
+  width: 273px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.precos {
+  width: 86px;
+  height: 38px;
+}
+.preco-de {
+  width: 76px;
+  height: 18px;
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 400;
+  color: #b3b9c6;
+  text-decoration: line-through;
+}
+.preco-por {
+  width: 86px;
+  height: 20px;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 20px;
+  color: #1861dd;
+}
+.buttons-acao {
+  width: 168px;
+  height: 28px;
+  gap: 10px;
+  display: flex;
+  align-items: center;
+}
+.buttons-acao p {
+  width: 66px;
+  height: 18px;
+  font-size: 12px;
+  line-height: 18px;
+  color: #464c5e;
+}
+.qtd-acoes {
+  width: 92px;
+  height: 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.remove {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background-color: #b3b9c6;
+  color: #fff;
+  font-size: 20px;
+  border: none;
+}
+.add {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background-color: #1570ef;
+  color: #fff;
+  font-size: 20px;
+  border: none;
 }
 </style>

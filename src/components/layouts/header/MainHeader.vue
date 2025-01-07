@@ -2,10 +2,15 @@
 import MainModal from '@/components/common/modals/MainModal.vue'
 import { useLogin } from '@/composables/useLogin'
 import { useCar } from '@/composables/useCar'
+import _ from 'lodash'
 
 const { email, senha, visibleModal, estadoModal, validarLogin, usuarioLogado, deslogar } =
   useLogin()
 const { estadoCarrinho } = useCar()
+function isDifferent(obj) {
+  const defaultObj = { carrinhoCompras: [], produtosFavoritados: [] }
+  return !_.isEqual(obj, defaultObj)
+}
 </script>
 
 <template>
@@ -31,11 +36,11 @@ const { estadoCarrinho } = useCar()
           <div class="login-usuario">
             <div class="texto">
               <p class="bem-vindo">
-                <span v-if="usuarioLogado != ''">Olá, {{ usuarioLogado.nome }}</span>
+                <span v-if="isDifferent(usuarioLogado)">Olá, {{ usuarioLogado.nome }}</span>
                 <span v-else>Seja bem vindo(a)!</span>
               </p>
               <p class="btn-entre">
-                <span v-if="usuarioLogado != ''" @click="deslogar()">Sair</span>
+                <span v-if="isDifferent(usuarioLogado)" @click="deslogar()">Sair</span>
                 <span v-else @click="estadoModal()">Entre</span>
               </p>
             </div>

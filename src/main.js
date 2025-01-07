@@ -2,6 +2,7 @@ import './assets/main.css'
 import { Swiper as SwiperComponent, SwiperSlide } from 'swiper/vue'
 import 'swiper/swiper-bundle.css'
 import '@fortawesome/fontawesome-free/css/all.css'
+import '@splidejs/vue-splide/css'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 

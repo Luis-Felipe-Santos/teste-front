@@ -1,51 +1,61 @@
-<script>
+<script setup>
 import appleLogo from '@/assets/icon-apple.svg'
 import samsungLogo from '@/assets/icon-samsung.svg'
 import xboxLogo from '@/assets/icon-xbox.svg'
 import asusLogo from '@/assets/icon-asus.svg'
 import playstationLogo from '@/assets/icon-playstation.svg'
 import nintendoLogo from '@/assets/icon-nintendo.svg'
-export default {
-  data() {
-    return {
-      brands: [
-        {
-          name: 'Apple',
-          image: appleLogo,
-        },
-        {
-          name: 'Samsung',
-          image: samsungLogo,
-        },
-        {
-          name: 'Xbox',
-          image: xboxLogo,
-        },
-        {
-          name: 'Asus',
-          image: asusLogo,
-        },
-        {
-          name: 'PlayStation',
-          image: playstationLogo,
-        },
-        {
-          name: 'Nintendo',
-          image: nintendoLogo,
-        },
-      ],
-    }
+import { Splide, SplideSlide } from '@splidejs/vue-splide'
+const brands = [
+  {
+    name: 'Apple',
+    image: appleLogo,
   },
-}
+  {
+    name: 'Samsung',
+    image: samsungLogo,
+  },
+  {
+    name: 'Xbox',
+    image: xboxLogo,
+  },
+  {
+    name: 'Asus',
+    image: asusLogo,
+  },
+  {
+    name: 'PlayStation',
+    image: playstationLogo,
+  },
+  {
+    name: 'Nintendo',
+    image: nintendoLogo,
+  },
+]
 </script>
 <template>
   <div class="vitrine-marcas">
     <h1>Marcas vendidas no site</h1>
-    <div class="container-cards">
-      <div class="card" v-for="(brand, index) in brands" :key="index">
-        <img :src="brand.image" :alt="brand.name" class="brand-logo" />
-      </div>
-    </div>
+    <Splide
+      :options="{
+        perPage: 4,
+        perMove: 1,
+        gap: '1rem',
+        pagination: false,
+        arrows: true,
+        breakpoints: {
+          1024: { perPage: 3 },
+          768: { perPage: 2 },
+          480: { perPage: 1 },
+        },
+      }"
+    >
+      <SplideSlide v-for="(brand, index) in brands" :key="index">
+        <div class="card">
+          <img :src="brand.image" :alt="brand.name" class="brand-logo" />
+        </div>
+      </SplideSlide>
+    </Splide>
   </div>
 </template>
 
@@ -64,13 +74,6 @@ h1 {
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 24px;
-}
-
-.container-cards {
-  display: flex;
-  justify-content: space-between;
-  gap: 32px;
-  flex-wrap: wrap;
 }
 
 .card {
