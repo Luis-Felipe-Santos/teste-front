@@ -25,12 +25,12 @@ export function useLogin() {
     if (usuario) {
       // Se o login for bem-sucedido, armazena as informações no Local Storage
       localStorage.setItem('usuarioLogado', JSON.stringify(usuario))
-      usuarioLogado.value = usuario // Atualiza a variável reativa
-      alert('Login bem-sucedido!') // Mensagem de sucesso
-      estadoModal() // Fecha o modal
+      usuarioLogado.value = usuario
+      alert('Login bem-sucedido!')
+      estadoModal()
       window.location.reload()
     } else {
-      errorMessage.value = 'Email ou senha incorretos.' // Mensagem de erro
+      errorMessage.value = 'Email ou senha incorretos.'
       alert(errorMessage.value)
     }
   }

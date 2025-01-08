@@ -5,12 +5,12 @@
       <a href="#">@models</a>
     </div>
     <div class="container-imagens">
-      <img src="@/assets/image1.svg" alt="" />
-      <img src="@/assets/image2.svg" alt="" />
-      <img src="@/assets/image3.svg" alt="" />
-      <img src="@/assets/image4.svg" alt="" />
-      <img src="@/assets/image5.svg" alt="" />
-      <img src="@/assets/image6.svg" alt="" />
+      <img src="@/assets/image1.svg" alt="Imagem 1" />
+      <img src="@/assets/image2.svg" alt="Imagem 2" />
+      <img src="@/assets/image3.svg" alt="Imagem 3" />
+      <img src="@/assets/image4.svg" alt="Imagem 4" />
+      <img src="@/assets/image5.svg" alt="Imagem 5" />
+      <img src="@/assets/image6.svg" alt="Imagem 6" />
     </div>
   </div>
 </template>
@@ -19,17 +19,17 @@
 .instagram-shop {
   width: 100%;
   max-width: 1216px;
-  height: 468px;
-  background-color: aqua;
+  height: auto;
   margin: 0 auto;
-  overflow: hidden; 
+  overflow: hidden;
 }
+
 .titulos {
   width: 100%;
   max-width: 1216px;
   height: 60px;
-  background-color: pink;
 }
+
 .titulos h1 {
   width: 1180px;
   height: 28px;
@@ -39,6 +39,7 @@
   color: #24262d;
   font-family: Inter;
 }
+
 .titulos a {
   width: 1180px;
   height: 28px;
@@ -48,10 +49,32 @@
   font-size: 18px;
   line-height: 28px;
 }
+
 .container-imagens {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 16px;
   width: 100%;
   max-width: 1216px;
-  height: 384px;
-  background-color: aquamarine;
+  height: auto;
+}
+
+.container-imagens img {
+  width: calc(33.33% - 16px);
+  height: auto;
+  object-fit: cover;
+}
+
+@media screen and (max-width: 768px) {
+  .container-imagens img {
+    width: calc(50% - 16px);
+  }
+
+  @media screen and (max-width: 380px) {
+    .container-imagens img {
+      width: calc(100% - 16px);
+    }
+  }
 }
 </style>

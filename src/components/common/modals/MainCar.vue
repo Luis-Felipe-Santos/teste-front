@@ -68,7 +68,6 @@ function toggleCarrinho() {
                 <button class="add" @click="alterarEstoque(produto.id, +1, estoqueInicial)">
                   +
                 </button>
-                {{ produto.estoque }}
               </div>
             </div>
           </div>

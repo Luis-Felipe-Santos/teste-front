@@ -1,3 +1,4 @@
+v
 <script setup>
 import { ref } from 'vue'
 
@@ -36,6 +37,7 @@ function toggleCategories() {
     </div>
   </div>
 </template>
+
 <style scoped>
 .menu-wrapper {
   display: flex;
@@ -75,12 +77,14 @@ function toggleCategories() {
   padding: 0;
   margin: 0;
 }
+
 .ul-dropdown {
   display: flex;
   flex-direction: column;
   padding: 0;
   margin: 0;
 }
+
 .ul-dropdown li {
   display: flex;
   align-items: center;
@@ -96,6 +100,7 @@ function toggleCategories() {
   padding: 12px 20px;
   cursor: pointer;
 }
+
 .dropdown-categories {
   display: flex;
   flex-direction: column;
@@ -135,5 +140,24 @@ function toggleCategories() {
 
 .menu-nav .items ul li img {
   margin-right: 8px;
+}
+
+@media screen and (max-width: 768px) {
+  .ul-menu {
+    display: none;
+  }
+  .ul-dropdown {
+    width: 100%;
+  }
+
+  .item1 {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .dropdown-categories {
+    width: calc(100% - 32px);
+    margin-left: 16px;
+  }
 }
 </style>

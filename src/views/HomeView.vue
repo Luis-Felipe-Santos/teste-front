@@ -1,9 +1,9 @@
 <script setup>
-import TestComponent from '@/components/TestComponent.vue'
+import ComponentPrincipal from '@/components/ComponentPrincipal.vue'
 </script>
 
 <template>
-  <TestComponent />
+  <ComponentPrincipal />
 </template>
 
 <style scoped></style>

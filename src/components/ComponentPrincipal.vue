@@ -2,7 +2,6 @@
 import { ref } from 'vue'
 import { useLogin } from '@/composables/useLogin.js'
 import { useProduct } from '@/composables/useProducts.js'
-import { useCar } from '@/composables/useCar.js'
 
 // Importando componentes
 import PitchbarHeader from '@/components/layouts/header/PitchbarHeader.vue'
@@ -20,7 +19,6 @@ import MainFooter from '@/components/layouts/footer/MainFooter.vue'
 
 const { usuarioLogado } = useLogin()
 const { produtos } = useProduct()
-const { carrinhoAberto } = useCar()
 
 const produtosCarrinho = ref(
   produtos.value.dados.filter((produto) =>

@@ -42,7 +42,6 @@
   .banner-playstation,
   .banner-xbox {
     width: 100%;
-    margin-bottom: 16px;
   }
 
   .banner-playstation img,

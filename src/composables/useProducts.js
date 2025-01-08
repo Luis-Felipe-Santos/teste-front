@@ -50,7 +50,6 @@ export function useProduct() {
       if (!usuarioLogado.carrinhoCompras.includes(idProduto)) {
         usuarioLogado.carrinhoCompras.push(idProduto)
         localStorage.setItem('usuarioLogado', JSON.stringify(usuarioLogado))
-        carrinho.value = [...usuarioLogado.carrinhoCompras] // Atualiza o estado reativo
       }
     }
     window.location.reload()
@@ -63,7 +62,6 @@ export function useProduct() {
       if (index !== -1) {
         usuarioLogado.carrinhoCompras.splice(index, 1)
         localStorage.setItem('usuarioLogado', JSON.stringify(usuarioLogado))
-        carrinho.value = [...usuarioLogado.carrinhoCompras]
       }
     }
     window.location.reload()
@@ -73,38 +71,27 @@ export function useProduct() {
     const produto = produtos.value.dados.find((p) => p.id === produtoId)
 
     if (produto) {
-      // Quantidade inicial começa com 1, se ainda não estiver definida.
       let novaQuantidade = produto.quantidade || 1
 
-      // Se a quantidade for maior que 0 (incremento), verifica se há estoque suficiente.
       if (quantidade > 0 && produto.estoque === 0) {
         alert('Não há estoque suficiente para adicionar mais unidades.')
         return
       }
 
-      // Atualiza a quantidade do carrinho.
       novaQuantidade += quantidade
 
-      // Verifica se a quantidade no carrinho é menor que 1
       if (novaQuantidade < 1) {
         alert('A quantidade não pode ser menor que 1.')
         return
       }
-
-      // Atualiza a quantidade no carrinho
       produto.quantidade = novaQuantidade
 
-      // Se estiver incrementando, diminui o estoque
       if (quantidade > 0) {
         produto.estoque -= quantidade
-        // Não permite que o estoque se torne negativo
         if (produto.estoque <= 1) {
           produto.estoque = 0
         }
-      }
-      // Se estiver decrementando, retorna a quantidade ao estoque
-      else if (quantidade < 0) {
-        // Aumenta o estoque pela quantidade removida
+      } else if (quantidade < 0) {
         produto.estoque += Math.abs(quantidade)
       }
     }
