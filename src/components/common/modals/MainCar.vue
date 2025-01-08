@@ -1,18 +1,30 @@
 <script setup>
+import { ref } from 'vue'
+
 import { useCar } from '@/composables/useCar'
 import { useProduct } from '@/composables/useProducts.js'
 import defaultImage from '@/assets/default.svg'
+import { defineEmits, defineProps } from 'vue'
 
-const { carrinhoAberto, estadoCarrinho } = useCar()
+const { estadoCarrinho } = useCar()
 const { removerCarrinho, alterarEstoque, formatCurrency } = useProduct()
 
-defineProps({
+const props = defineProps({
   produtosCarrinho: Array,
+  carrinhoAberto: Boolean,
 })
+
+const emit = defineEmits(['update:carrinhoAberto'])
+const estoqueInicial = ref(1)
+
+function toggleCarrinho() {
+  estadoCarrinho()
+  emit('update:carrinhoAberto', !props.carrinhoAberto) // Emitindo o novo estado
+}
 </script>
 
 <template>
-  <div v-if="carrinhoAberto" class="carrinho">
+  <div v-if="props.carrinhoAberto" class="carrinho">
     <div class="header-carrinho">
       <div class="header-content">
         <img class="icone-carrinho" src="@/assets/carrinho.svg" alt="carrinho" />
@@ -20,7 +32,7 @@ defineProps({
           <p>Carrinho de Compras</p>
         </div>
       </div>
-      <img @click="estadoCarrinho" src="@/assets/icone-fechar.svg" alt="Fechar carrinho" />
+      <img @click="toggleCarrinho" src="@/assets/icone-fechar.svg" alt="Fechar carrinho" />
     </div>
 
     <div v-if="produtosCarrinho.length === 0" class="produtos">
@@ -49,9 +61,14 @@ defineProps({
             <div class="buttons-acao">
               <p>Quantidade:</p>
               <div class="qtd-acoes">
-                <button class="remove" @click="alterarEstoque(produto.id, -1)">-</button>
+                <button class="remove" @click="alterarEstoque(produto.id, -1, estoqueInicial)">
+                  -
+                </button>
+                {{ produto.quantidade ?? 1 }}
+                <button class="add" @click="alterarEstoque(produto.id, +1, estoqueInicial)">
+                  +
+                </button>
                 {{ produto.estoque }}
-                <button class="add" @click="alterarEstoque(produto.id)">+</button>
               </div>
             </div>
           </div>
@@ -67,7 +84,7 @@ defineProps({
       </div>
       <div class="btn">
         <button class="finalizar">Finalizar compra</button>
-        <button class="continuar">Continuar</button>
+        <button @click="toggleCarrinho" class="continuar">Continuar comprando</button>
       </div>
     </div>
   </div>
@@ -76,8 +93,17 @@ defineProps({
 <style scoped>
 .carrinho {
   width: 442px;
-  height: 768px;
+  height: 100vh; /* Agora o carrinho ocupa toda a altura da tela */
+  position: fixed; /* Fixa o carrinho à lateral direita */
+  top: 0; /* Inicia no topo da tela */
+  right: 0; /* Posiciona na lateral direita */
+  background-color: #fff; /* Cor de fundo */
+  box-shadow: -4px 0 10px rgba(0, 0, 0, 0.1); /* Sombra para destacar */
+  z-index: 999; /* Garante que o carrinho fique acima de outros elementos */
+  display: flex;
+  flex-direction: column;
 }
+
 .header-carrinho {
   display: flex;
   justify-content: space-between;
@@ -86,6 +112,7 @@ defineProps({
   height: 64px;
   border-bottom: 1px solid #d7dae0;
 }
+
 .header-content {
   display: flex;
   align-items: center;
@@ -95,6 +122,7 @@ defineProps({
   margin: 16px;
   height: 24px;
 }
+
 .titulo {
   display: flex;
   align-items: center;
@@ -106,91 +134,97 @@ defineProps({
   font-size: 16px;
   line-height: 24px;
 }
+
 .icone-carrinho {
   width: 24px;
   height: 24px;
 }
+
 .conteudo-principal {
-  width: 439px;
-  height: 546px;
+  flex: 1; /* Garante que o conteúdo ocupe o restante do espaço disponível */
   padding: 20px;
   gap: 12px;
   box-sizing: border-box;
+  overflow-y: auto; /* Permite rolar os produtos se o conteúdo for maior que a tela */
 }
+
 .footer-carrinho {
-  width: 439px;
-  height: 158px;
+  width: 100%;
+  height: 158px; /* Mantém a altura do footer fixa */
   border-top: 1px solid #d7dae0;
   padding: 20px;
   gap: 12px;
+  background-color: #f9f9f9;
 }
+
 .total {
-  width: 399px;
-  height: 20px;
+  width: 100%;
   display: flex;
   justify-content: space-between;
-  gap: 15px;
   font-size: 14px;
   font-weight: 700;
-  line-height: 20px;
+  color: #3d424f;
 }
+
 .btn {
-  width: 399px;
-  height: 86px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 10px;
   margin-top: 12px;
 }
+
 .finalizar {
-  width: 399px;
+  width: 100%;
   height: 44px;
-  padding: 10px 18px 10px 18px;
-  gap: 8px;
+  padding: 10px 18px;
   border-radius: 8px;
   background-color: #1570ef;
   border: 1px solid #1570ef;
   color: #fff;
   font-size: 16px;
-  line-height: 24px;
   font-weight: 600;
 }
+
 .continuar {
-  width: 399px;
+  width: 100%;
   height: 32px;
-  padding: 4px 18px 4px 18px;
-  gap: 8px;
+  padding: 4px 18px;
   color: #1570ef;
   border: none;
   font-size: 16px;
-  line-height: 24px;
   font-weight: 600;
 }
+
 .produtos {
   display: flex;
-  width: 399px;
+  width: 100%;
   height: 116px;
   border-radius: 18px;
   border: 1px solid #edeef1;
   padding: 14px;
   gap: 10px;
-  margin: 20px;
+  margin: 20px 0;
 }
+
 .imagem-produto {
   width: 88px;
   height: 88px;
 }
+
 .infos {
   width: 273px;
   height: 88px;
   gap: 14px;
 }
+
 .name-lixeira {
   width: 273px;
   height: 36px;
   gap: 16px;
   display: flex;
 }
+
 .name-lixeira p {
   width: 239px;
   height: 36px;
@@ -199,10 +233,12 @@ defineProps({
   line-height: 18px;
   color: #24262d;
 }
+
 .name-lixeira img {
   width: 18px;
   height: 18px;
 }
+
 .acoes {
   width: 273px;
   height: 38px;
@@ -210,10 +246,12 @@ defineProps({
   align-items: center;
   justify-content: space-between;
 }
+
 .precos {
   width: 86px;
   height: 38px;
 }
+
 .preco-de {
   width: 76px;
   height: 18px;
@@ -223,6 +261,7 @@ defineProps({
   color: #b3b9c6;
   text-decoration: line-through;
 }
+
 .preco-por {
   width: 86px;
   height: 20px;
@@ -231,6 +270,7 @@ defineProps({
   line-height: 20px;
   color: #1861dd;
 }
+
 .buttons-acao {
   width: 168px;
   height: 28px;
@@ -245,6 +285,7 @@ defineProps({
   line-height: 18px;
   color: #464c5e;
 }
+
 .qtd-acoes {
   width: 92px;
   height: 28px;
@@ -252,22 +293,23 @@ defineProps({
   justify-content: space-between;
   align-items: center;
 }
-.remove {
-  width: 28px;
-  height: 28px;
-  border-radius: 6px;
-  background-color: #b3b9c6;
-  color: #fff;
-  font-size: 20px;
-  border: none;
-}
+
+.remove,
 .add {
   width: 28px;
   height: 28px;
   border-radius: 6px;
-  background-color: #1570ef;
-  color: #fff;
   font-size: 20px;
   border: none;
+}
+
+.remove {
+  background-color: #b3b9c6;
+  color: #fff;
+}
+
+.add {
+  background-color: #1570ef;
+  color: #fff;
 }
 </style>

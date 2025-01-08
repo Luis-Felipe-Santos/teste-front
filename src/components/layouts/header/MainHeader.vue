@@ -1,16 +1,38 @@
 <script setup>
-import MainModal from '@/components/common/modals/MainModal.vue'
+import { watch } from 'vue'
+import { defineEmits } from 'vue'
+import _ from 'lodash'
+
+// composables
 import { useLogin } from '@/composables/useLogin'
 import { useCar } from '@/composables/useCar'
-import _ from 'lodash'
+
+// componente
+import MainModal from '@/components/common/modals/MainModal.vue'
 
 const { email, senha, visibleModal, estadoModal, validarLogin, usuarioLogado, deslogar } =
   useLogin()
-const { estadoCarrinho } = useCar()
+const { carrinhoAberto, estadoCarrinho } = useCar()
+
 function isDifferent(obj) {
   const defaultObj = { carrinhoCompras: [], produtosFavoritados: [] }
   return !_.isEqual(obj, defaultObj)
 }
+
+const emit = defineEmits(['update:carrinhoAberto'])
+
+function toggleCarrinho() {
+  estadoCarrinho()
+  emit('update:carrinhoAberto', carrinhoAberto.value)
+}
+
+const props = defineProps({
+  carrinhoAbertoProps: Boolean
+})
+
+watch(() => props.carrinhoAbertoProps, (newValue) => {
+  carrinhoAberto.value = newValue
+})
 </script>
 
 <template>
@@ -26,7 +48,7 @@ function isDifferent(obj) {
         <input type="text" id="txtPesquisar" placeholder="Pesquisar por..." />
       </div>
       <div class="acoes">
-        <div class="icone-carrinho" @click="estadoCarrinho">
+        <div class="icone-carrinho" @click="toggleCarrinho">
           <img src="@/assets/carrinho.svg" alt="" />
         </div>
         <div class="usuario">
@@ -37,7 +59,7 @@ function isDifferent(obj) {
             <div class="texto">
               <p class="bem-vindo">
                 <span v-if="isDifferent(usuarioLogado)">Olá, {{ usuarioLogado.nome }}</span>
-                <span v-else>Seja bem vindo(a)!</span>
+                <span v-else>Seja bem-vindo(a)!</span>
               </p>
               <p class="btn-entre">
                 <span v-if="isDifferent(usuarioLogado)" @click="deslogar()">Sair</span>
@@ -76,7 +98,10 @@ function isDifferent(obj) {
                 v-model="senha"
                 placeholder="Digite sua senha..."
               />
-              <button type="submit" class="submit-button">Enviar</button>
+              <div class="buttons-login">
+                <button type="submit" class="submit-button">Enviar</button>
+                <button @click="estadoModal" class="close-button">Fechar</button>
+              </div>
             </form>
           </div>
         </div>
@@ -213,5 +238,9 @@ function isDifferent(obj) {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+.buttons-login {
+  display: flex;
+  gap: 4px;
 }
 </style>

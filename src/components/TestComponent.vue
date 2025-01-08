@@ -1,7 +1,10 @@
 <script setup>
 import { ref } from 'vue'
+import { useLogin } from '@/composables/useLogin.js'
+import { useProduct } from '@/composables/useProducts.js'
+import { useCar } from '@/composables/useCar.js'
 
-// componentes
+// Importando componentes
 import PitchbarHeader from '@/components/layouts/header/PitchbarHeader.vue'
 import MainHeader from '@/components/layouts/header/MainHeader.vue'
 import MenuHeader from '@/components/layouts/header/MenuHeader.vue'
@@ -12,34 +15,46 @@ import BannerSecundarios from '@/components/layouts/banner/BannerSecundarios.vue
 import VitrineTabs from '@/components/layouts/list/VitrineTabs.vue'
 import VitrineMarcas from '@/components/layouts/list/VitrineMarcas.vue'
 import ContainerInstagram from '@/components/layouts/instagram/ContainerInstagram.vue'
-
-// composable
-import { useLogin } from '@/composables/useLogin.js'
-import { useProduct } from '@/composables/useProducts.js'
+import NewsLetterFooter from '@/components/layouts/footer/NewsletterFooter.vue'
+import MainFooter from '@/components/layouts/footer/MainFooter.vue'
 
 const { usuarioLogado } = useLogin()
 const { produtos } = useProduct()
+const { carrinhoAberto } = useCar()
 
-// pega somente os produtos que estão no array de carrinhoCompras
 const produtosCarrinho = ref(
   produtos.value.dados.filter((produto) =>
     usuarioLogado.value.carrinhoCompras.includes(produto.id),
   ),
 )
+
+const carrinhoAbertoPai = ref(false)
+
+function handleCarrinhoAberto(novoCarrinho) {
+  carrinhoAbertoPai.value = novoCarrinho
+}
 </script>
 
 <template>
-  {{ usuarioLogado }}
   <PitchbarHeader />
-  <MainHeader />
+  <MainHeader
+    v-model:carrinhoAberto="carrinhoAbertoPai"
+    @update:carrinhoAberto="handleCarrinhoAberto"
+    :carrinhoAbertoProps="carrinhoAbertoPai"
+  />
   <MenuHeader />
   <BannerCarousel />
   <ListProducts />
-  <MainCar :produtosCarrinho="produtosCarrinho" :key="usuarioLogado" />
+  <MainCar
+    :produtosCarrinho="produtosCarrinho"
+    :key="usuarioLogado"
+    :carrinhoAberto="carrinhoAbertoPai"
+    @update:carrinhoAberto="handleCarrinhoAberto"
+  />
   <BannerSecundarios />
   <VitrineTabs />
   <VitrineMarcas />
   <ContainerInstagram />
+  <NewsLetterFooter />
+  <MainFooter />
 </template>
-
-<style scoped></style>

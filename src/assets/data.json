@@ -92,57 +92,196 @@
       }
     ]
   },
-  "iphones": {
-    "titulo": "Iphones",
-    "dados": [
+  "vitrineIphones": [
+    {
+      "id": 1,
+      "nome": "Iphone 13 Pro Max Olex 256GB",
+      "image": "https://www.webcoevocevue.uappi.dev.br/upload/editor/Foto.png",
+      "precoDe": 5555.56,
+      "precoPor": 5000,
+      "valorParcela": 500,
+      "avaliacoes": 20,
+      "selos": ["10% OFF", "MAIS VENDIDO", "LANÇAMENTO"],
+      "estoque": 10
+    },
+    {
+      "id": 2,
+      "nome": "Iphone 13 Pro 128GB",
+      "image": "https://www.webcoevocevue.uappi.dev.br/upload/editor/Foto.png",
+      "precoDe": 5500.0,
+      "precoPor": 4900,
+      "valorParcela": 490,
+      "avaliacoes": 25,
+      "selos": ["MAIS VENDIDO", "LANÇAMENTO"],
+      "estoque": 15
+    },
+    {
+      "id": 3,
+      "nome": "Iphone 12 Mini 64GB",
+      "image": "https://www.webcoevocevue.uappi.dev.br/upload/editor/Foto.png",
+      "precoDe": 3000,
+      "precoPor": 2500,
+      "valorParcela": 250,
+      "avaliacoes": 30,
+      "selos": ["15% OFF", "NOVO"],
+      "estoque": 20
+    },
+    {
+      "id": 4,
+      "nome": "Iphone 13 128GB",
+      "image": "https://www.webcoevocevue.uappi.dev.br/upload/editor/Foto.png",
+      "precoDe": 4000,
+      "precoPor": 3500,
+      "valorParcela": 350,
+      "avaliacoes": 35,
+      "selos": ["20% OFF", "MAIS VENDIDO"],
+      "estoque": 10
+    },
+    {
+      "id": 5,
+      "nome": "Iphone 14 Pro 512GB",
+      "image": "https://www.webcoevocevue.uappi.dev.br/upload/editor/Foto.png",
+      "precoDe": 7000,
+      "precoPor": 6500,
+      "valorParcela": 650,
+      "avaliacoes": 40,
+      "selos": ["10% OFF", "LANÇAMENTO"],
+      "estoque": 5
+    },
+    {
+      "id": 6,
+      "nome": "Iphone 14 Pro Max 1TB",
+      "image": "https://www.webcoevocevue.uappi.dev.br/upload/editor/Foto.png",
+      "precoDe": 9000,
+      "precoPor": 8500,
+      "valorParcela": 850,
+      "avaliacoes": 50,
+      "selos": ["5% OFF", "NOVO"],
+      "estoque": 8
+    },
+    {
+      "id": 7,
+      "nome": "Iphone SE 2022 64GB",
+      "image": "https://www.webcoevocevue.uappi.dev.br/upload/editor/Foto.png",
+      "precoDe": 2500,
+      "precoPor": 2200,
+      "valorParcela": 220,
+      "avaliacoes": 15,
+      "selos": ["10% OFF", "LANÇAMENTO"],
+      "estoque": 30
+    },
+    {
+      "id": 8,
+      "nome": "Iphone 13 Pro Max 512GB",
+      "image": "https://www.webcoevocevue.uappi.dev.br/upload/editor/Foto.png",
+      "precoDe": 6500,
+      "precoPor": 6000,
+      "valorParcela": 600,
+      "avaliacoes": 45,
+      "selos": ["15% OFF", "MAIS VENDIDO"],
+      "estoque": 12
+    }
+  ],
+  "vitrinePromocoes": {
+    "titulo": "Vitrine Promoções",
+    "tabs": [
       {
-        "id": "1",
-        "nome": "Iphone 13 Pro Max Olex 256GB",
-        "image": "https://www.webcoevocevue.uappi.dev.br/upload/editor/Foto.png",
-        "precoDe": 5555.56,
-        "precoPor": 5000,
-        "valorParcela": 500,
-        "avaliacoes": 20,
-        "selos": ["10% OFF", "MAIS VENDIDO", "LANÇAMENTO"],
-        "estoque": 10
+        "nome": "Promoções de Iphone",
+        "produtos": [
+          {
+            "id": 33,
+            "nome": "Capa Iphone 15 Plus",
+            "image": "https://www.webcoevocevue.uappi.dev.br/upload/editor/Foto.png",
+            "precoDe": 350,
+            "precoPor": 150,
+            "valorParcela": 500,
+            "avaliacoes": 20,
+            "selos": ["10% OFF", "PROMOÇÃO"],
+            "estoque": 10
+          },
+          {
+            "id": 34,
+            "nome": "Iphone 12 Pro Max 128GB",
+            "image": "https://www.webcoevocevue.uappi.dev.br/upload/editor/Foto.png",
+            "precoDe": 5000,
+            "precoPor": 4500,
+            "valorParcela": 375,
+            "avaliacoes": 30,
+            "selos": ["15% OFF", "PROMOÇÃO"],
+            "estoque": 5
+          },
+          {
+            "id": 50,
+            "nome": "Iphone 13 Mini 64GB",
+            "image": "https://www.webcoevocevue.uappi.dev.br/upload/editor/Foto.png",
+            "precoDe": 3500,
+            "precoPor": 2999,
+            "valorParcela": 250,
+            "avaliacoes": 40,
+            "selos": ["20% OFF", "PROMOÇÃO"],
+            "estoque": 8
+          }
+        ]
       },
       {
-        "id": "2",
-        "nome": "Iphone 12 Pro 128GB",
-        "image": "https://www.webcoevocevue.uappi.dev.br/upload/editor/Foto.png",
-        "precoDe": 4999.99,
-        "precoPor": 4500,
-        "valorParcela": 450,
-        "avaliacoes": 30,
-        "selos": ["20% OFF", "MAIS VENDIDO"],
-        "estoque": 0
-      }
-    ]
-  },
-  "promocoes": {
-    "titulo": "Promoções",
-    "dados": [
-      {
-        "id": "3",
-        "nome": "Iphone 13 Pro Max Olex 256GB",
-        "image": "https://www.webcoevocevue.uappi.dev.br/upload/editor/Foto.png",
-        "precoDe": 5555.56,
-        "precoPor": 5000,
-        "valorParcela": 500,
-        "avaliacoes": 20,
-        "selos": ["10% OFF", "MAIS VENDIDO", "LANÇAMENTO"],
-        "estoque": 10
-      },
-      {
-        "id": "4",
-        "nome": "Iphone 12 Pro 128GB",
-        "image": "https://www.webcoevocevue.uappi.dev.br/upload/editor/Foto.png",
-        "precoDe": 4999.99,
-        "precoPor": 4500,
-        "valorParcela": 450,
-        "avaliacoes": 30,
-        "selos": ["20% OFF", "MAIS VENDIDO"],
-        "estoque": 0
+        "nome": "Promoções de Acessórios",
+        "produtos": [
+          {
+            "id": 51,
+            "nome": "Capa Iphone 13 Pro Max",
+            "image": "https://www.webcoevocevue.uappi.dev.br/upload/editor/Foto.png",
+            "precoDe": 150,
+            "precoPor": 100,
+            "valorParcela": 10,
+            "avaliacoes": 15,
+            "selos": ["20% OFF", "PROMOÇÃO"],
+            "estoque": 50
+          },
+          {
+            "id": 37,
+            "nome": "Fone de Ouvido AirPods Pro",
+            "image": "https://www.webcoevocevue.uappi.dev.br/upload/editor/Foto.png",
+            "precoDe": 1200,
+            "precoPor": 999,
+            "valorParcela": 100,
+            "avaliacoes": 60,
+            "selos": ["10% OFF", "PROMOÇÃO"],
+            "estoque": 25
+          },
+          {
+            "id": 38,
+            "nome": "Carregador MagSafe",
+            "image": "https://www.webcoevocevue.uappi.dev.br/upload/editor/Foto.png",
+            "precoDe": 300,
+            "precoPor": 249,
+            "valorParcela": 25,
+            "avaliacoes": 50,
+            "selos": ["15% OFF", "PROMOÇÃO"],
+            "estoque": 15
+          },
+          {
+            "id": 39,
+            "nome": "Capa Iphone 11",
+            "image": "https://www.webcoevocevue.uappi.dev.br/upload/editor/Foto.png",
+            "precoDe": 200,
+            "precoPor": 120,
+            "valorParcela": 12,
+            "avaliacoes": 10,
+            "selos": ["30% OFF", "PROMOÇÃO"],
+            "estoque": 30
+          },
+          {
+            "id": 46,
+            "nome": "Cabo Lightning Apple",
+            "image": "https://www.webcoevocevue.uappi.dev.br/upload/editor/Foto.png",
+            "precoDe": 80,
+            "precoPor": 50,
+            "valorParcela": 5,
+            "avaliacoes": 35,
+            "selos": ["10% OFF", "PROMOÇÃO"],
+            "estoque": 70
+          }
+        ]
       }
     ]
   },

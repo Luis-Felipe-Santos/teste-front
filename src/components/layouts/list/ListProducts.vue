@@ -96,6 +96,7 @@ const { email, senha, validarLogin } = useLogin()
               <button
                 @click="usuarioLogado ? adicionarCarrinho(produto.id) : exibirLogin()"
                 :disabled="produto.estoque === 0"
+                :class="{ 'btn-indisponivel': produto.estoque === 0 }"
               >
                 {{ produto.estoque === 0 ? 'Indisponível' : 'Comprar Agora' }}
               </button>
@@ -274,11 +275,19 @@ const { email, senha, validarLogin } = useLogin()
   line-height: 20px;
   border: none;
   margin: 10px 16px 14px 16px;
+  cursor: pointer;
 }
 .favorito {
   padding: 10px;
   color: #fff;
   background-color: #e60000;
   border-radius: 50%;
+}
+.btn button:disabled,
+.btn-indisponivel {
+  background-color: #b3b9c6;
+  color: #a0a0a0;
+  cursor: not-allowed;
+  color: #f6f7f9;
 }
 </style>

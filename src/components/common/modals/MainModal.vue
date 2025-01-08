@@ -4,7 +4,6 @@ import { defineProps } from 'vue'
 const props = defineProps({
   title: {
     type: String,
-    required: true,
   },
   visible: {
     type: Boolean,
@@ -119,6 +118,18 @@ input::placeholder {
   border-radius: 8px;
   background-color: #1570ef;
   border: 1px solid #1570ef;
+  color: #ffffff;
+  font-size: 14px; /* Ajustado para o tamanho do botão */
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+.close-button {
+  width: 100px;
+  height: 44px;
+  border-radius: 8px;
+  background-color: #b3b9c6;
+  border: 1px solid #b3b9c6;
   color: #ffffff;
   font-size: 14px; /* Ajustado para o tamanho do botão */
   font-weight: 500;

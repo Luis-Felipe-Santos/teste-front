@@ -35,11 +35,7 @@ export function useProduct() {
         usuarioLogado.produtosFavoritados.splice(index, 1)
         localStorage.setItem('usuarioLogado', JSON.stringify(usuarioLogado))
         console.log(`Produto ${produtoId} removido dos favoritos.`)
-      } else {
-        console.log(`Produto ${produtoId} não está nos favoritos.`)
       }
-    } else {
-      console.log('Nenhum usuário logado encontrado.')
     }
     window.location.reload()
   }
@@ -57,6 +53,7 @@ export function useProduct() {
         carrinho.value = [...usuarioLogado.carrinhoCompras] // Atualiza o estado reativo
       }
     }
+    window.location.reload()
   }
 
   function removerCarrinho(idProduto) {
@@ -67,33 +64,49 @@ export function useProduct() {
         usuarioLogado.carrinhoCompras.splice(index, 1)
         localStorage.setItem('usuarioLogado', JSON.stringify(usuarioLogado))
         carrinho.value = [...usuarioLogado.carrinhoCompras]
-        alert(`Produto ${idProduto} removido do carrinho.`)
-      } else {
-        alert(`Produto ${idProduto} não encontrado no carrinho.`)
       }
-    } else {
-      alert('Nenhum usuário logado encontrado.')
     }
+    window.location.reload()
   }
 
   function alterarEstoque(produtoId, quantidade = 1) {
     const produto = produtos.value.dados.find((p) => p.id === produtoId)
 
     if (produto) {
-      const novoEstoque = produto.estoque + quantidade
+      // Quantidade inicial começa com 1, se ainda não estiver definida.
+      let novaQuantidade = produto.quantidade || 1
 
-      // Verifica se a quantidade está dentro do limite permitido
-      if (novoEstoque < 0) {
-        alert('A quantidade não pode ser menor que zero.')
+      // Se a quantidade for maior que 0 (incremento), verifica se há estoque suficiente.
+      if (quantidade > 0 && produto.estoque === 0) {
+        alert('Não há estoque suficiente para adicionar mais unidades.')
         return
       }
-      if (novoEstoque > produto.estoqueMaximo) {
-        alert(
-          `A quantidade não pode ser maior que o estoque disponível (${produto.estoqueMaximo}).`,
-        )
+
+      // Atualiza a quantidade do carrinho.
+      novaQuantidade += quantidade
+
+      // Verifica se a quantidade no carrinho é menor que 1
+      if (novaQuantidade < 1) {
+        alert('A quantidade não pode ser menor que 1.')
         return
       }
-      produto.estoque = novoEstoque
+
+      // Atualiza a quantidade no carrinho
+      produto.quantidade = novaQuantidade
+
+      // Se estiver incrementando, diminui o estoque
+      if (quantidade > 0) {
+        produto.estoque -= quantidade
+        // Não permite que o estoque se torne negativo
+        if (produto.estoque <= 1) {
+          produto.estoque = 0
+        }
+      }
+      // Se estiver decrementando, retorna a quantidade ao estoque
+      else if (quantidade < 0) {
+        // Aumenta o estoque pela quantidade removida
+        produto.estoque += Math.abs(quantidade)
+      }
     }
   }
 

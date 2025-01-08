@@ -5,8 +5,11 @@ import { ref } from 'vue'
 import MainModal from '@/components/common/modals/MainModal.vue'
 import { useLogin } from '@/composables/useLogin'
 import { Splide, SplideSlide } from '@splidejs/vue-splide'
+
+// Importação da função useVitrine
+import { useVitrine } from '@/composables/useVitrine.js'
+
 const {
-  produtos,
   formatCurrency,
   favoritarProduto,
   removerProdutoFavorito,
@@ -14,8 +17,12 @@ const {
   exibirLogin,
   adicionarCarrinho,
 } = useProduct()
+
 const testeFavorito = ref(JSON.parse(localStorage.getItem('usuarioLogado')) || null)
 const { email, senha, validarLogin } = useLogin()
+
+// Usando o useVitrine para controlar a vitrine selecionada
+const { produtos: produtosVitrine, selecionarVitrine } = useVitrine()
 </script>
 
 <template>
@@ -23,9 +30,12 @@ const { email, senha, validarLogin } = useLogin()
     <div class="vitrine-novidades">
       <h1>Navegue por categoria</h1>
       <div class="tabs">
-        <button class="btn-iphones">Iphones</button>
-        <button class="btn-promocoes">Promoções</button>
+        <!-- Botões para selecionar as vitrines -->
+        <button @click="selecionarVitrine('iphones')" class="btn-iphones">Iphones</button>
+        <button @click="selecionarVitrine('promocoes')" class="btn-promocoes">Promoções</button>
       </div>
+
+      <!-- Carrossel de produtos -->
       <Splide
         :options="{
           perPage: 4,
@@ -40,10 +50,10 @@ const { email, senha, validarLogin } = useLogin()
           },
         }"
       >
-        <SplideSlide v-for="(produto, index) in produtos.dados" :key="produto.id || index">
+        <SplideSlide v-for="(produto, index) in produtosVitrine" :key="produto.id || index">
           <div class="container-cards">
             <div class="cards">
-              <div v-if="produto.selos.length > 0">
+              <div v-if="produto.selos && produto.selos.length > 0">
                 <div
                   v-for="(selo, seloIndex) in produto.selos"
                   :key="seloIndex"
@@ -100,6 +110,7 @@ const { email, senha, validarLogin } = useLogin()
                   <button
                     @click="testeFavorito ? adicionarCarrinho(produto.id) : exibirLogin()"
                     :disabled="produto.estoque === 0"
+                    :class="{ 'btn-indisponivel': produto.estoque === 0 }"
                   >
                     {{ produto.estoque === 0 ? 'Indisponível' : 'Comprar Agora' }}
                   </button>
@@ -111,6 +122,7 @@ const { email, senha, validarLogin } = useLogin()
       </Splide>
     </div>
   </div>
+
   <MainModal :visible="showLogin">
     <template v-slot:default>
       <div class="popup-overlay">
@@ -294,6 +306,7 @@ const { email, senha, validarLogin } = useLogin()
   line-height: 20px;
   border: none;
   margin: 10px 16px 14px 16px;
+  cursor: pointer;
 }
 .favorito {
   padding: 10px;
@@ -320,5 +333,13 @@ const { email, senha, validarLogin } = useLogin()
   line-height: 20px;
   color: #464c5e;
   text-align: center;
+  cursor: pointer;
+}
+.btn button:disabled,
+.btn-indisponivel {
+  background-color: #b3b9c6;
+  color: #a0a0a0;
+  cursor: not-allowed;
+  color: #f6f7f9;
 }
 </style>

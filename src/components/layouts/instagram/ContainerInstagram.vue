@@ -22,9 +22,11 @@
   height: 468px;
   background-color: aqua;
   margin: 0 auto;
+  overflow: hidden; 
 }
 .titulos {
-  width: 1216px;
+  width: 100%;
+  max-width: 1216px;
   height: 60px;
   background-color: pink;
 }
@@ -47,7 +49,8 @@
   line-height: 28px;
 }
 .container-imagens {
-  width: 1216px;
+  width: 100%;
+  max-width: 1216px;
   height: 384px;
   background-color: aquamarine;
 }

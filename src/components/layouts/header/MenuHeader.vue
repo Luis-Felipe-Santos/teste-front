@@ -1,13 +1,31 @@
+<script setup>
+import { ref } from 'vue'
+
+const showCategories = ref(false)
+
+function toggleCategories() {
+  showCategories.value = !showCategories.value
+}
+</script>
+
 <template>
   <div class="menu-wrapper">
     <div class="menu">
       <div class="menu-nav">
         <div class="items">
-          <ul>
-            <li class="item1">
+          <ul class="ul-dropdown">
+            <li class="item1" @click="toggleCategories">
               <img src="@/assets/menu.svg" alt="menu" />
               Todas as categorias
             </li>
+            <div v-show="showCategories" class="dropdown-categories">
+              <li class="item6">Smartphones</li>
+              <li class="item7">Notebooks</li>
+              <li class="item8">Consoles</li>
+              <li class="item9">Headphones</li>
+            </div>
+          </ul>
+          <ul class="ul-menu">
             <li class="item2">Smartphones</li>
             <li class="item3">Notebooks</li>
             <li class="item4">Consoles</li>
@@ -52,10 +70,23 @@
   gap: 8px;
 }
 
-.items ul {
+.ul-menu {
   display: flex;
   padding: 0;
   margin: 0;
+}
+.ul-dropdown {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin: 0;
+}
+.ul-dropdown li {
+  display: flex;
+  align-items: center;
+  height: 42px;
+  padding: 12px 20px;
+  cursor: pointer;
 }
 
 .items ul li {
@@ -65,12 +96,34 @@
   padding: 12px 20px;
   cursor: pointer;
 }
+.dropdown-categories {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  border: 1px solid #edeef1;
+  border-radius: 4px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  margin-top: 42px;
+  z-index: 1000;
+  width: 200px;
+}
+
+.dropdown-categories li {
+  padding: 8px 16px;
+  transition: background-color 0.3s ease;
+}
+
+.dropdown-categories li:hover {
+  background-color: #f5f5f5;
+}
 
 .item1 {
   display: flex;
   align-items: center;
   width: auto;
   gap: 8px;
+  position: relative;
 }
 
 .item2,
