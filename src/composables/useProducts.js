@@ -1,5 +1,5 @@
 import data from '@/assets/data.json'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 
 export function useProduct() {
   const produtos = ref(data.produtos)
@@ -7,6 +7,12 @@ export function useProduct() {
   const promocoes = ref(data.promocoes)
   const showLogin = ref(false)
   const carrinho = ref([])
+  const usuarioLogado = ref(
+    JSON.parse(localStorage.getItem('usuarioLogado')) || {
+      carrinhoCompras: [],
+      produtosFavoritados: [],
+    },
+  )
 
   const formatCurrency = (value) => {
     if (value || value === 0) {
@@ -15,54 +21,45 @@ export function useProduct() {
     return 'R$ 0,00'
   }
 
-  function favoritarProduto(idProduto) {
-    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'))
+  // Watcher para sincronizar com localStorage sempre que usuarioLogado for alterado
+  watch(
+    usuarioLogado,
+    (newValue) => {
+      localStorage.setItem('usuarioLogado', JSON.stringify(newValue))
+    },
+    { deep: true },
+  )
 
-    if (usuarioLogado) {
-      if (!usuarioLogado.produtosFavoritados.includes(idProduto)) {
-        usuarioLogado.produtosFavoritados.push(idProduto)
-        localStorage.setItem('usuarioLogado', JSON.stringify(usuarioLogado))
-      }
+  function favoritarProduto(idProduto) {
+    if (!usuarioLogado.value.produtosFavoritados.includes(idProduto)) {
+      usuarioLogado.value.produtosFavoritados.push(idProduto)
     }
     window.location.reload()
   }
 
   function removerProdutoFavorito(produtoId) {
-    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'))
-    if (usuarioLogado) {
-      const index = usuarioLogado.produtosFavoritados.indexOf(produtoId)
-      if (index !== -1) {
-        usuarioLogado.produtosFavoritados.splice(index, 1)
-        localStorage.setItem('usuarioLogado', JSON.stringify(usuarioLogado))
-        console.log(`Produto ${produtoId} removido dos favoritos.`)
-      }
+    const index = usuarioLogado.value.produtosFavoritados.indexOf(produtoId)
+    if (index !== -1) {
+      usuarioLogado.value.produtosFavoritados.splice(index, 1)
     }
     window.location.reload()
   }
+
   function exibirLogin() {
     showLogin.value = !showLogin.value
   }
 
   function adicionarCarrinho(idProduto) {
-    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'))
-
-    if (usuarioLogado) {
-      if (!usuarioLogado.carrinhoCompras.includes(idProduto)) {
-        usuarioLogado.carrinhoCompras.push(idProduto)
-        localStorage.setItem('usuarioLogado', JSON.stringify(usuarioLogado))
-      }
+    if (!usuarioLogado.value.carrinhoCompras.includes(idProduto)) {
+      usuarioLogado.value.carrinhoCompras.push(idProduto)
     }
     window.location.reload()
   }
 
   function removerCarrinho(idProduto) {
-    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'))
-    if (usuarioLogado) {
-      const index = usuarioLogado.carrinhoCompras.indexOf(idProduto)
-      if (index !== -1) {
-        usuarioLogado.carrinhoCompras.splice(index, 1)
-        localStorage.setItem('usuarioLogado', JSON.stringify(usuarioLogado))
-      }
+    const index = usuarioLogado.value.carrinhoCompras.indexOf(idProduto)
+    if (index !== -1) {
+      usuarioLogado.value.carrinhoCompras.splice(index, 1)
     }
     window.location.reload()
   }

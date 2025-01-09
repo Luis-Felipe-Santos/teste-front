@@ -110,4 +110,13 @@ const { banners } = useBanner()
   line-height: 14.52px;
   font-weight: 400;
 }
+
+@media (max-width: 560px) {
+  .pitchbar-banner {
+    display: none;
+  }
+}
+
+
 </style>
+

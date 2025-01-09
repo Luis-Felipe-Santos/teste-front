@@ -36,7 +36,7 @@ const { email, senha, validarLogin } = useLogin()
         },
       }"
     >
-      <SplideSlide v-for="(produto, index) in produtos.dados" :key="produto.id || index">
+      <SplideSlide class="cards-splide" v-for="(produto, index) in produtos.dados" :key="produto.id || index">
         <div class="cards">
           <div v-if="produto.selos.length > 0">
             <div
@@ -290,4 +290,14 @@ const { email, senha, validarLogin } = useLogin()
   cursor: not-allowed;
   color: #f6f7f9;
 }
+@media (max-width: 480px) {
+  .cards-splide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: auto;
+  }
+}
+
 </style>

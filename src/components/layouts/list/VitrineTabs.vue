@@ -22,7 +22,10 @@ const testeFavorito = ref(JSON.parse(localStorage.getItem('usuarioLogado')) || n
 const { email, senha, validarLogin } = useLogin()
 
 // Usando o useVitrine para controlar a vitrine selecionada
-const { produtos: produtosVitrine, selecionarVitrine } = useVitrine()
+const { produtos: produtosVitrine, selecionarVitrine, vitrineSelecionada} = useVitrine()
+
+
+
 </script>
 
 <template>
@@ -31,8 +34,8 @@ const { produtos: produtosVitrine, selecionarVitrine } = useVitrine()
       <h1>Navegue por categoria</h1>
       <div class="tabs">
         <!-- Botões para selecionar as vitrines -->
-        <button @click="selecionarVitrine('iphones')" class="btn-iphones">Iphones</button>
-        <button @click="selecionarVitrine('promocoes')" class="btn-promocoes">Promoções</button>
+        <button @click="selecionarVitrine('iphones')" class="btn-iphones" :class="['btn-iphones', { 'active': vitrineSelecionada === 'iphones' }]">Iphones</button>
+        <button @click="selecionarVitrine('promocoes')" class="btn-promocoes" :class="['btn-promocoes', { 'active': vitrineSelecionada === 'promocoes' }]">Promoções</button>
       </div>
 
       <!-- Carrossel de produtos -->
@@ -50,7 +53,7 @@ const { produtos: produtosVitrine, selecionarVitrine } = useVitrine()
           },
         }"
       >
-        <SplideSlide v-for="(produto, index) in produtosVitrine" :key="produto.id || index">
+        <SplideSlide class="cards-splide" v-for="(produto, index) in produtosVitrine" :key="produto.id || index">
           <div class="container-cards">
             <div class="cards">
               <div v-if="produto.selos && produto.selos.length > 0">
@@ -335,6 +338,12 @@ const { produtos: produtosVitrine, selecionarVitrine } = useVitrine()
   text-align: center;
   cursor: pointer;
 }
+.btn-iphones.active,
+.btn-promocoes.active {
+  background-color: #1861dd;
+  color: #fff;
+  border-color: #1861dd;
+}
 .btn button:disabled,
 .btn-indisponivel {
   background-color: #b3b9c6;
@@ -342,4 +351,14 @@ const { produtos: produtosVitrine, selecionarVitrine } = useVitrine()
   cursor: not-allowed;
   color: #f6f7f9;
 }
+@media (max-width: 600px) {
+  .container-cards{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: auto;
+  }
+}
+
 </style>

@@ -50,7 +50,7 @@ const brands = [
         },
       }"
     >
-      <SplideSlide v-for="(brand, index) in brands" :key="index">
+      <SplideSlide class="cards-splide" v-for="(brand, index) in brands" :key="index">
         <div class="card">
           <img :src="brand.image" :alt="brand.name" class="brand-logo" />
         </div>
@@ -93,5 +93,15 @@ h1 {
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
+}
+
+@media (max-width: 480px) {
+  .cards-splide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: auto;
+  }
 }
 </style>

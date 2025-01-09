@@ -35,6 +35,7 @@ const props = defineProps({
   z-index: 9999; /* Garantir que o popup fique no topo */
 }
 
+
 /* Container do popup */
 .popup-content {
   background-color: #fff;
@@ -185,5 +186,31 @@ input::placeholder {
 }
 .submit-button:focus {
   outline: none;
+}
+
+@media (max-width: 768px) {
+  /* Ajusta o tamanho do popup para dispositivos menores */
+  .popup-content {
+    width: 90%; /* Largura de 90% da tela */
+    max-width: 100%; /* Sem limite máximo */
+    height: auto; /* Ajuste dinâmico da altura */
+    padding: 16px;
+  }
+
+  .header-popup,
+  .text-popup {
+    padding: 8px;
+    text-align: center;
+  }
+
+  .submit-button {
+    width: 100%; /* Largura total em telas pequenas */
+    max-width: 100%; /* Garante que o botão ocupe toda a largura disponível */
+  }
+
+  .input-email,
+  .input-senha {
+    width: 100%; /* Largura 100% do campo */
+  }
 }
 </style>
