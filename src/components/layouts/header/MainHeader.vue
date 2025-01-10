@@ -3,36 +3,44 @@ import { watch } from 'vue'
 import { defineEmits } from 'vue'
 import _ from 'lodash'
 
-// composables
+// Composables
 import { useLogin } from '@/composables/useLogin'
 import { useCar } from '@/composables/useCar'
 
-// componente
+// Componentes
 import MainModal from '@/components/common/modals/MainModal.vue'
 
 const { email, senha, visibleModal, estadoModal, validarLogin, usuarioLogado, deslogar } =
   useLogin()
 const { carrinhoAberto, estadoCarrinho } = useCar()
 
+// Emitir evento para o componente pai
+const emit = defineEmits(['update:carrinhoAberto'])
+
+// Propriedades recebidas do componente pai
+const props = defineProps({
+  carrinhoAbertoProps: Boolean,
+})
+
+// Atualiza o estado local quando a propriedade do pai muda
+watch(
+  () => props.carrinhoAbertoProps,
+  (newValue) => {
+    carrinhoAberto.value = newValue
+  },
+)
+// Alternar a abertura do carrinho
+function toggleCarrinho() {
+  carrinhoAberto.value = !carrinhoAberto.value // Alterna o estado local
+  emit('update:carrinhoAberto', carrinhoAberto.value) // Emite o novo estado para o pai
+  estadoCarrinho() // Atualiza o estado global (se necessário)
+}
+
+// Verifica se o usuário está logado
 function isDifferent(obj) {
   const defaultObj = { carrinhoCompras: [], produtosFavoritados: [] }
   return !_.isEqual(obj, defaultObj)
 }
-
-const emit = defineEmits(['update:carrinhoAberto'])
-
-function toggleCarrinho() {
-  estadoCarrinho()
-  emit('update:carrinhoAberto', carrinhoAberto.value)
-}
-
-const props = defineProps({
-  carrinhoAbertoProps: Boolean
-})
-
-watch(() => props.carrinhoAbertoProps, (newValue) => {
-  carrinhoAberto.value = newValue
-})
 </script>
 
 <template>
@@ -48,12 +56,14 @@ watch(() => props.carrinhoAbertoProps, (newValue) => {
         <input type="text" id="txtPesquisar" placeholder="Pesquisar por..." />
       </div>
       <div class="acoes">
+        <!-- Ícone do carrinho -->
         <div class="icone-carrinho" @click="toggleCarrinho">
-          <img src="@/assets/carrinho.svg" alt="" />
+          <img src="@/assets/carrinho.svg" alt="Carrinho" />
         </div>
+        <!-- Usuário -->
         <div class="usuario">
           <div class="icone-usuario">
-            <img src="@/assets/user.svg" alt="" />
+            <img src="@/assets/user.svg" alt="Usuário" />
           </div>
           <div class="login-usuario">
             <div class="texto">
@@ -71,6 +81,8 @@ watch(() => props.carrinhoAbertoProps, (newValue) => {
       </div>
     </div>
   </div>
+
+  <!-- Modal de Login -->
   <MainModal :visible="visibleModal">
     <template v-slot:default>
       <div class="popup-overlay">

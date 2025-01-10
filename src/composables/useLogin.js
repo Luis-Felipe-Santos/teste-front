@@ -18,10 +18,15 @@ export function useLogin() {
   }
 
   function validarLogin() {
+    console.log('Email:', email.value)
+    console.log('Senha:', senha.value)
+    console.log('Formulário de login submetido')
+
     // Verifica se o email e a senha correspondem a um usuário no JSON
     const usuario = data.usuarios.dados.find(
       (user) => user.email === email.value && user.password === senha.value,
     )
+    console.log('Usuário encontrado:', usuario)
     if (usuario) {
       // Se o login for bem-sucedido, armazena as informações no Local Storage
       localStorage.setItem('usuarioLogado', JSON.stringify(usuario))

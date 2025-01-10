@@ -28,13 +28,12 @@ const props = defineProps({
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5); /* Semitransparente */
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 9999; /* Garantir que o popup fique no topo */
+  z-index: 9999;
 }
-
 
 /* Container do popup */
 .popup-content {
@@ -120,7 +119,7 @@ input::placeholder {
   background-color: #1570ef;
   border: 1px solid #1570ef;
   color: #ffffff;
-  font-size: 14px; /* Ajustado para o tamanho do botão */
+  font-size: 14px;
   font-weight: 500;
   cursor: pointer;
   transition: background-color 0.2s ease-in-out;
@@ -132,7 +131,7 @@ input::placeholder {
   background-color: #b3b9c6;
   border: 1px solid #b3b9c6;
   color: #ffffff;
-  font-size: 14px; /* Ajustado para o tamanho do botão */
+  font-size: 14px;
   font-weight: 500;
   cursor: pointer;
   transition: background-color 0.2s ease-in-out;
@@ -144,7 +143,7 @@ input::placeholder {
 .submit-button:focus {
   outline: none;
 }
-/* Formulário */
+
 .form-group {
   width: 100%;
   height: 196px;
@@ -175,7 +174,7 @@ input::placeholder {
   background-color: #1570ef;
   border: 1px solid #1570ef;
   color: #ffffff;
-  font-size: 14px; /* Ajustado para o tamanho do botão */
+  font-size: 14px;
   font-weight: 500;
   cursor: pointer;
   transition: background-color 0.2s ease-in-out;
@@ -189,11 +188,10 @@ input::placeholder {
 }
 
 @media (max-width: 768px) {
-  /* Ajusta o tamanho do popup para dispositivos menores */
   .popup-content {
-    width: 90%; /* Largura de 90% da tela */
-    max-width: 100%; /* Sem limite máximo */
-    height: auto; /* Ajuste dinâmico da altura */
+    width: 90%;
+    max-width: 100%;
+    height: auto;
     padding: 16px;
   }
 
@@ -204,13 +202,13 @@ input::placeholder {
   }
 
   .submit-button {
-    width: 100%; /* Largura total em telas pequenas */
-    max-width: 100%; /* Garante que o botão ocupe toda a largura disponível */
+    width: 100%;
+    max-width: 100%;
   }
 
   .input-email,
   .input-senha {
-    width: 100%; /* Largura 100% do campo */
+    width: 100%;
   }
 }
 </style>

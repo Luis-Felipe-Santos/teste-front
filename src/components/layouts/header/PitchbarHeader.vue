@@ -35,8 +35,8 @@
   line-height: 20px;
   font-size: 14px;
   color: #24262d;
-  word-wrap: break-word; /* Permite quebra de palavras */
-  overflow-wrap: break-word; /* Compatibilidade adicional */
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 span {
@@ -46,8 +46,7 @@ span {
 /* Media query para telas menores */
 @media (max-width: 600px) {
   .pitchbar-items p {
-    font-size: 12px; /* Ajusta o tamanho da fonte em telas pequenas */
-    
+    font-size: 12px;
   }
 }
 </style>

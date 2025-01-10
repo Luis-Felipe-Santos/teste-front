@@ -18,13 +18,7 @@ import NewsLetterFooter from '@/components/layouts/footer/NewsletterFooter.vue'
 import MainFooter from '@/components/layouts/footer/MainFooter.vue'
 
 const { usuarioLogado } = useLogin()
-const { produtos } = useProduct()
-
-const produtosCarrinho = ref(
-  produtos.value.dados.filter((produto) =>
-    usuarioLogado.value.carrinhoCompras.includes(produto.id),
-  ),
-)
+const { carrinho } = useProduct()
 
 const carrinhoAbertoPai = ref(false)
 
@@ -44,7 +38,7 @@ function handleCarrinhoAberto(novoCarrinho) {
   <BannerCarousel />
   <ListProducts />
   <MainCar
-    :produtosCarrinho="produtosCarrinho"
+    :produtosCarrinho="carrinho.value"
     :key="usuarioLogado"
     :carrinhoAberto="carrinhoAbertoPai"
     @update:carrinhoAberto="handleCarrinhoAberto"

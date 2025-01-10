@@ -1,7 +1,6 @@
 <script setup>
 import { useProduct } from '@/composables/useProducts.js'
 import defaultImage from '@/assets/default.svg'
-import { ref } from 'vue'
 import MainModal from '@/components/common/modals/MainModal.vue'
 import { useLogin } from '@/composables/useLogin'
 import { Splide, SplideSlide } from '@splidejs/vue-splide'
@@ -14,8 +13,8 @@ const {
   showLogin,
   exibirLogin,
   adicionarCarrinho,
+  usuarioLogado,
 } = useProduct()
-const usuarioLogado = ref(JSON.parse(localStorage.getItem('usuarioLogado')) ?? '')
 const { email, senha, validarLogin } = useLogin()
 </script>
 
@@ -36,7 +35,11 @@ const { email, senha, validarLogin } = useLogin()
         },
       }"
     >
-      <SplideSlide class="cards-splide" v-for="(produto, index) in produtos.dados" :key="produto.id || index">
+      <SplideSlide
+        class="cards-splide"
+        v-for="(produto, index) in produtos.dados"
+        :key="produto.id || index"
+      >
         <div class="cards">
           <div v-if="produto.selos.length > 0">
             <div
@@ -299,5 +302,4 @@ const { email, senha, validarLogin } = useLogin()
     height: auto;
   }
 }
-
 </style>

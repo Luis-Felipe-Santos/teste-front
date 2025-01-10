@@ -1,7 +1,6 @@
 <script setup>
 import { useProduct } from '@/composables/useProducts.js'
 import defaultImage from '@/assets/default.svg'
-import { ref } from 'vue'
 import MainModal from '@/components/common/modals/MainModal.vue'
 import { useLogin } from '@/composables/useLogin'
 import { Splide, SplideSlide } from '@splidejs/vue-splide'
@@ -16,16 +15,12 @@ const {
   showLogin,
   exibirLogin,
   adicionarCarrinho,
+  usuarioLogado,
 } = useProduct()
-
-const testeFavorito = ref(JSON.parse(localStorage.getItem('usuarioLogado')) || null)
 const { email, senha, validarLogin } = useLogin()
 
 // Usando o useVitrine para controlar a vitrine selecionada
-const { produtos: produtosVitrine, selecionarVitrine, vitrineSelecionada} = useVitrine()
-
-
-
+const { produtos: produtosVitrine, selecionarVitrine, vitrineSelecionada } = useVitrine()
 </script>
 
 <template>
@@ -34,8 +29,20 @@ const { produtos: produtosVitrine, selecionarVitrine, vitrineSelecionada} = useV
       <h1>Navegue por categoria</h1>
       <div class="tabs">
         <!-- Botões para selecionar as vitrines -->
-        <button @click="selecionarVitrine('iphones')" class="btn-iphones" :class="['btn-iphones', { 'active': vitrineSelecionada === 'iphones' }]">Iphones</button>
-        <button @click="selecionarVitrine('promocoes')" class="btn-promocoes" :class="['btn-promocoes', { 'active': vitrineSelecionada === 'promocoes' }]">Promoções</button>
+        <button
+          @click="selecionarVitrine('iphones')"
+          class="btn-iphones"
+          :class="['btn-iphones', { active: vitrineSelecionada === 'iphones' }]"
+        >
+          Iphones
+        </button>
+        <button
+          @click="selecionarVitrine('promocoes')"
+          class="btn-promocoes"
+          :class="['btn-promocoes', { active: vitrineSelecionada === 'promocoes' }]"
+        >
+          Promoções
+        </button>
       </div>
 
       <!-- Carrossel de produtos -->
@@ -53,71 +60,74 @@ const { produtos: produtosVitrine, selecionarVitrine, vitrineSelecionada} = useV
           },
         }"
       >
-        <SplideSlide class="cards-splide" v-for="(produto, index) in produtosVitrine" :key="produto.id || index">
-          <div class="container-cards">
-            <div class="cards">
-              <div v-if="produto.selos && produto.selos.length > 0">
-                <div
-                  v-for="(selo, seloIndex) in produto.selos"
-                  :key="seloIndex"
-                  :class="['badge', seloIndex > 0 ? 'secondary' : '']"
-                >
-                  {{ selo }}
+        <SplideSlide
+          class="cards-splide"
+          v-for="(produto, index) in produtosVitrine"
+          :key="produto.id || index"
+        >
+          <div class="cards">
+            <div v-if="produto.selos.length > 0">
+              <div
+                v-for="(selo, seloIndex) in produto.selos"
+                :key="seloIndex"
+                :class="['badge', seloIndex > 0 ? 'secondary' : '']"
+              >
+                {{ selo }}
+              </div>
+            </div>
+            <i
+              v-if="usuarioLogado"
+              :class="[
+                'fa-heart',
+                'icon-heart',
+                usuarioLogado.produtosFavoritados.includes(produto.id)
+                  ? 'fa-regular favorito'
+                  : 'fa-regular',
+              ]"
+              @click="
+                usuarioLogado.produtosFavoritados.includes(produto.id)
+                  ? removerProdutoFavorito(produto.id)
+                  : favoritarProduto(produto.id)
+              "
+            ></i>
+            <i v-else class="fa-regular fa-heart icon-heart" @click="exibirLogin()"></i>
+
+            <img
+              class="imagem"
+              :src="produto.image == '' ? defaultImage : produto.image"
+              :alt="produto.nome"
+            />
+            <div class="card-infos">
+              <div class="nome-produto">
+                <p>{{ produto.nome }}</p>
+              </div>
+              <div class="avaliacoes">
+                <img src="@/assets/estrelas.svg" alt="" />
+                <span>({{ produto.avaliacoes }})</span>
+              </div>
+              <div class="precos">
+                <div class="valores-promo">
+                  <span class="preco-de" v-if="produto.precoDe">{{
+                    formatCurrency(produto.precoDe)
+                  }}</span>
+                  <span class="preco-por">{{ formatCurrency(produto.precoPor) }}</span>
+                </div>
+                <div class="parcelas">
+                  <p>
+                    ou <span>12x</span> de
+                    <span>{{ formatCurrency(produto.valorParcela) }}</span> sem juros
+                  </p>
                 </div>
               </div>
-              <i
-                v-if="testeFavorito"
-                :class="[
-                  'fa-heart',
-                  'icon-heart',
-                  testeFavorito.produtosFavoritados.includes(produto.id)
-                    ? 'fa-regular favorito'
-                    : 'fa-regular',
-                ]"
-                @click="
-                  testeFavorito.produtosFavoritados.includes(produto.id)
-                    ? removerProdutoFavorito(produto.id)
-                    : favoritarProduto(produto.id)
-                "
-              ></i>
-              <i v-else class="fa-regular fa-heart icon-heart" @click="exibirLogin()"></i>
 
-              <img
-                class="imagem"
-                :src="produto.image == '' ? defaultImage : produto.image"
-                :alt="produto.nome"
-              />
-              <div class="card-infos">
-                <div class="nome-produto">
-                  <p>{{ produto.nome }}</p>
-                </div>
-                <div class="avaliacoes">
-                  <img src="@/assets/estrelas.svg" alt="" />
-                  <span>({{ produto.avaliacoes }})</span>
-                </div>
-                <div class="precos">
-                  <div class="valores-promo">
-                    <span class="preco-de" v-if="produto.precoDe">{{
-                      formatCurrency(produto.precoDe)
-                    }}</span>
-                    <span class="preco-por">{{ formatCurrency(produto.precoPor) }}</span>
-                  </div>
-                  <div class="parcelas">
-                    <p>
-                      ou <span>12x</span> de
-                      <span>{{ formatCurrency(produto.valorParcela) }}</span> sem juros
-                    </p>
-                  </div>
-                </div>
-                <div class="btn">
-                  <button
-                    @click="testeFavorito ? adicionarCarrinho(produto.id) : exibirLogin()"
-                    :disabled="produto.estoque === 0"
-                    :class="{ 'btn-indisponivel': produto.estoque === 0 }"
-                  >
-                    {{ produto.estoque === 0 ? 'Indisponível' : 'Comprar Agora' }}
-                  </button>
-                </div>
+              <div class="btn">
+                <button
+                  @click="usuarioLogado ? adicionarCarrinho(produto.id) : exibirLogin()"
+                  :disabled="produto.estoque === 0"
+                  :class="{ 'btn-indisponivel': produto.estoque === 0 }"
+                >
+                  {{ produto.estoque === 0 ? 'Indisponível' : 'Comprar Agora' }}
+                </button>
               </div>
             </div>
           </div>
@@ -351,8 +361,8 @@ const { produtos: produtosVitrine, selecionarVitrine, vitrineSelecionada} = useV
   cursor: not-allowed;
   color: #f6f7f9;
 }
-@media (max-width: 600px) {
-  .container-cards{
+@media (max-width: 480px) {
+  .cards-splide {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -360,5 +370,4 @@ const { produtos: produtosVitrine, selecionarVitrine, vitrineSelecionada} = useV
     height: auto;
   }
 }
-
 </style>

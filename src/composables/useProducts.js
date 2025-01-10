@@ -7,12 +7,11 @@ export function useProduct() {
   const promocoes = ref(data.promocoes)
   const showLogin = ref(false)
   const carrinho = ref([])
-  const usuarioLogado = ref(
-    JSON.parse(localStorage.getItem('usuarioLogado')) || {
-      carrinhoCompras: [],
-      produtosFavoritados: [],
-    },
-  )
+  const usuarioLogado = ref(JSON.parse(localStorage.getItem('usuarioLogado')) ?? '')
+
+  if (usuarioLogado.value) {
+    carrinho.value = usuarioLogado.value.carrinhoCompras || []
+  }
 
   const formatCurrency = (value) => {
     if (value || value === 0) {
@@ -20,21 +19,32 @@ export function useProduct() {
     }
     return 'R$ 0,00'
   }
-
-  // Watcher para sincronizar com localStorage sempre que usuarioLogado for alterado
+  // Quando o carrinho do usuário for alterado, atualize a referência local
   watch(
-    usuarioLogado,
+    () => usuarioLogado.value,
     (newValue) => {
-      localStorage.setItem('usuarioLogado', JSON.stringify(newValue))
+      if (newValue) {
+        carrinho.value = newValue.carrinhoCompras || []
+      }
     },
     { deep: true },
   )
 
+  // Sincronize com localStorage
+  watch(
+    carrinho,
+    (newCarrinho) => {
+      if (usuarioLogado.value) {
+        usuarioLogado.value.carrinhoCompras = newCarrinho
+        localStorage.setItem('usuarioLogado', JSON.stringify(usuarioLogado.value))
+      }
+    },
+    { deep: true },
+  )
   function favoritarProduto(idProduto) {
     if (!usuarioLogado.value.produtosFavoritados.includes(idProduto)) {
       usuarioLogado.value.produtosFavoritados.push(idProduto)
     }
-    window.location.reload()
   }
 
   function removerProdutoFavorito(produtoId) {
@@ -42,54 +52,57 @@ export function useProduct() {
     if (index !== -1) {
       usuarioLogado.value.produtosFavoritados.splice(index, 1)
     }
-    window.location.reload()
   }
 
   function exibirLogin() {
     showLogin.value = !showLogin.value
   }
 
-  function adicionarCarrinho(idProduto) {
-    if (!usuarioLogado.value.carrinhoCompras.includes(idProduto)) {
-      usuarioLogado.value.carrinhoCompras.push(idProduto)
+  const adicionarCarrinho = (idProduto) => {
+    const produto = produtos.value.dados.find((p) => p.id === idProduto)
+    if (produto) {
+      const produtoNoCarrinho = carrinho.value.find((p) => p.id === produto.id)
+      if (produtoNoCarrinho) {
+        produtoNoCarrinho.quantidade++
+      } else {
+        carrinho.value.push({ ...produto, quantidade: 1 })
+      }
     }
-    window.location.reload()
   }
 
-  function removerCarrinho(idProduto) {
-    const index = usuarioLogado.value.carrinhoCompras.indexOf(idProduto)
-    if (index !== -1) {
-      usuarioLogado.value.carrinhoCompras.splice(index, 1)
-    }
-    window.location.reload()
+  const removerCarrinho = (idProduto) => {
+    carrinho.value = carrinho.value.filter((produto) => produto.id !== idProduto)
   }
 
   function alterarEstoque(produtoId, quantidade = 1) {
-    const produto = produtos.value.dados.find((p) => p.id === produtoId)
+    // Busca o produto no carrinho
+    const produtoNoCarrinho = carrinho.value.find((p) => p.id === produtoId)
 
-    if (produto) {
-      let novaQuantidade = produto.quantidade || 1
+    if (produtoNoCarrinho) {
+      // Se o produto estiver no carrinho, vamos atualizar a quantidade dele
+      let novaQuantidade = produtoNoCarrinho.quantidade + quantidade
 
-      if (quantidade > 0 && produto.estoque === 0) {
-        alert('Não há estoque suficiente para adicionar mais unidades.')
-        return
-      }
-
-      novaQuantidade += quantidade
-
+      // Valida se a quantidade no carrinho não vai para menos de 1
       if (novaQuantidade < 1) {
         alert('A quantidade não pode ser menor que 1.')
         return
       }
-      produto.quantidade = novaQuantidade
 
+      // Verifica se o estoque tem unidades suficientes
+      const produtoNoEstoque = produtos.value.dados.find((p) => p.id === produtoId)
+      if (produtoNoEstoque.estoque < novaQuantidade) {
+        alert('Não há estoque suficiente para adicionar mais unidades.')
+        return
+      }
+
+      // Atualiza a quantidade no carrinho
+      produtoNoCarrinho.quantidade = novaQuantidade
+
+      // Atualiza o estoque
       if (quantidade > 0) {
-        produto.estoque -= quantidade
-        if (produto.estoque <= 1) {
-          produto.estoque = 0
-        }
+        produtoNoEstoque.estoque -= quantidade
       } else if (quantidade < 0) {
-        produto.estoque += Math.abs(quantidade)
+        produtoNoEstoque.estoque += Math.abs(quantidade)
       }
     }
   }
@@ -107,5 +120,6 @@ export function useProduct() {
     iphones,
     promocoes,
     alterarEstoque,
+    usuarioLogado,
   }
 }
